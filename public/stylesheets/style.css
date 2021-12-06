@@ -1,0 +1,36 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+#posts_box{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.post{
+  width:300px;
+  margin:5px;
+  border: solid 1px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.heart_button{
+  color:red;
+}
+
+.comments-box{
+  border: 1px black solid;
+  margin: 10px;
+}
+
+.individual-comment-box{
+  border: 1px black solid;
+  margin: 3px;
+}

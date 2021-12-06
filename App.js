@@ -5,6 +5,73 @@ import logger from 'morgan';
 import sessions from 'express-session';
 import MsIdExpress from 'microsoft-identity-express'
 
+// const appSettings = {
+//     appCredentials: {
+//         clientId: "ba8b71d4-4826-4e86-b082-3cb80b34dc44", // Application (client) ID on Azure AD
+//         tenantId: "f6b6dd5b-f02f-441a-99a0-162ac5060bd2", // alt. "common" "organizations" "consumers"
+//         clientSecret: "wyX7Q~qVPy166KZENiI01uad1KJx46iMISldB" // alt. client certificate or key vault credential
+//     },
+//     authRoutes: {
+//         // redirect: "https://www.websitesharer-vishank.me/redirect",
+//         redirect: "http://localhost:3000/redirect",
+//         error: "/error", // the wrapper will redirect to this route in case of any error.
+//         unauthorized: "/unauthorized" // the wrapper will redirect to this route in case of unauthorized access attempt.
+//     }
+// };
 
+import indexRouter from './routes/index.js';
+import apiv1Router from './routes/api/v1/apiv1.js'; //edited
+
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+var app = express();
+
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+// const oneDay = 1000 * 60 * 60 * 24;
+// app.use(sessions({
+//     secret: "thisismysecret",
+//     saveUninitialized:true,
+//     cookie: { maxAge: oneDay },
+//     resave: false 
+// }))
+// // instantiate the MS auth wrapper
+// const msid = new MsIdExpress.WebAppAuthClientBuilder(appSettings).build();
+// // initialize the MS auth wrapper
+// app.use(msid.initialize());
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/', indexRouter);
+app.use('/api/v1', apiv1Router) //edited
+
+// // authentication routes
+// app.get('/signin', 
+//     msid.signIn({
+//         postLoginRedirect: '/'
+//     }
+// ));
+
+// app.get('/signout', 
+//     msid.signOut({
+//         postLogoutRedirect: '/'
+//     }
+// ));
+
+// // unauthorized
+// app.get('/error', (req, res) => res.status(500).send('server error'));
+
+// // error
+// app.get('/unauthorized', (req, res) => res.status(401).send('Permission denied'));
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log('Example app listening at http://localhost:PORT')
+})
 
 export default app;
