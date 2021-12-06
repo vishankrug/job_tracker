@@ -237,22 +237,22 @@ router.get("/posts", async function(req, res, next){
 //     }
 // })
 
-// router.get("/getIdentity", async function(req, res, next){
-//     let session = req.session
-//     if (session.isAuthenticated) {
-//         res.type("json")
-//         res.send(
-//             {"status": "loggedin", 
-//             "userInfo": {
-//                 "name": session.account.name, 
-//                 "username": session.account.username
-//             }
-//         })
-//     } else {
-//         res.type("json")
-//         res.send({"staus": "logged out"})
-//     }
-// })
+router.get("/getIdentity", async function(req, res, next){
+    let session = req.session
+    if (session.isAuthenticated) {
+        res.type("json")
+        res.send(
+            {"status": "loggedin", 
+            "userInfo": {
+                "name": session.account.name, 
+                "username": session.account.username
+            }
+        })
+    } else {
+        res.type("json")
+        res.send({"staus": "logged out"})
+    }
+})
 
 // router.get("/posts", async function(req, res, next){
 //     try{
