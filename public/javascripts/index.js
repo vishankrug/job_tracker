@@ -1,7 +1,12 @@
-function init(){
-    loadIdentity();
-    loadApplications();
-}
+// function init(){
+//     let urlInput = document.getElementById("urlInput");
+//     urlInput.onkeyup = previewUrl;
+//     urlInput.onchange = previewUrl;
+//     urlInput.onclick = previewUrl;
+
+//     loadIdentity();
+//     loadPosts();
+// }
 
 async function loadApplications(){
     let postsJson = await loadApplicationsApi();

@@ -10,10 +10,22 @@ const escapeHTML = str => str.replace(/[&<>'"]/g,
     }[tag]));
 
 
+async function signoutButton(){
+    const urlParams = new URLSearchParams(window.location.search);
+    const username = urlParams.get('user');
+    let logout_div = document.getElementById("logout");
+    logout_div.innerHTML = `
+        <p>${username}</p>
+        <a href="signout" class="btn btn-danger" role="button">Log out</a>`;
+        if(document.getElementById("make_post_div")){
+            document.getElementById("make_post_div").classList.remove("d-none");
+    }
+}
 
 async function loadIdentity(){
     let identityInfo = await loadIdentityApi();
     let identity_div = document.getElementById("identity_div");
+    let logout_div = document.getElementById("logout");
     if(identityInfo.status == "error"){
         myIdentity = undefined;
         identity_div.innerHTML = `<div>
@@ -28,12 +40,15 @@ async function loadIdentity(){
         Array.from(document.getElementsByClassName("heart-button-span")).forEach(e => e.classList.add("d-none"));
     } else if(identityInfo.status == "loggedin"){
         myIdentity = identityInfo.userInfo.username;
-        identity_div.innerHTML = `
+        console.log(myIdentity)
+        location.href = `/index.html?user=${encodeURIComponent(identityInfo.userInfo.username)}`;
+        logout_div.innerHTML = `
         <a href="/userInfo.html?user=${encodeURIComponent(identityInfo.userInfo.username)}">${identityInfo.userInfo.name} (${identityInfo.userInfo.username})</a>
         <a href="signout" class="btn btn-danger" role="button">Log out</a>`;
         if(document.getElementById("make_post_div")){
             document.getElementById("make_post_div").classList.remove("d-none");
         }
+        
         Array.from(document.getElementsByClassName("new-comment-box")).forEach(e => e.classList.remove("d-none"))
         Array.from(document.getElementsByClassName("heart-button-span")).forEach(e => e.classList.remove("d-none"));
     } else { //loggedout

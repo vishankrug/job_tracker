@@ -15,6 +15,7 @@ async function main() {
     //req.session.account.username
 
   const applicationSchema = new mongoose.Schema({
+    username: String,
     companyName: String,
     position: String,
     typeOfJob: String,
@@ -28,40 +29,60 @@ async function main() {
 
 router.post('/posts', async function(req, res, next){
     // console.log(req.body)
-    //let session = req.session
-    try{
-        const newApplication = new Application({
-            companyName: req.body.companyName,
-            position: req.body.position,
-            typeOfJob: req.body.typeOfJob,
-            date: req.body.date,
-            notes: req.body.notes
-        });
-
-        await newApplication.save()
-        res.send("status: 'success'")
-    }catch(error){
-        res.send("error: " + error)
+    let session = req.session
+    if(session.isAuthenticated){
+        try{
+            const newApplication = new Application({
+                username: session.account.username,
+                companyName: req.body.companyName,
+                position: req.body.position,
+                typeOfJob: req.body.typeOfJob,
+                date: req.body.date,
+                notes: req.body.notes
+            });
+    
+            await newApplication.save()
+            res.send("status: 'success'")
+        }catch(error){
+            res.send("error: " + error)
+        }
+    }else{
+        res.type('json')
+        res.send({"status": "error", "error": "not logged in"})
     }
+
 });
 
 router.get("/posts", async function(req, res, next){
-    try{
-        let allPosts = await Application.find()
-        let html = await Promise.all(allPosts.map(async postInfo => {
-            return {'companyName': postInfo.companyName, //check
-                    'position' : postInfo.position,
-                    'typeOfJob' : postInfo.typeOfJob, 
-                    'date': postInfo.date,
-                    'notes': postInfo.notes,
-                } 
-        }))
+    let session = req.session;
+    if(session.isAuthenticated){
+        try{
+            let allPosts = await Application.find()
+            let filteredPosts = allPosts.filter(user => {
+                if(user.username == session.account.username){
+                    return true
+                }
+            })
+            let html = await Promise.all(filteredPosts.map(async postInfo => {
+                return {'username': session.account.username,
+                        'companyName': postInfo.companyName, //check
+                        'position' : postInfo.position,
+                        'typeOfJob' : postInfo.typeOfJob, 
+                        'date': postInfo.date,
+                        'notes': postInfo.notes,
+                    } 
+            }))
+            res.type('json')
+            res.send(html)
+        }catch(error){
+            res.type('json')
+            res.send("error: " + error)
+        }
+    }else{
         res.type('json')
-        res.send(html)
-    }catch(error){
-        res.type('json')
-        res.send("error: " + error)
+        res.send({"status": "error", "error": "not logged in"})
     }
+    
 })
 
 // router.post('/user', async function(req, res, next){
