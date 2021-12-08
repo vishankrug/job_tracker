@@ -4,18 +4,26 @@
 //     urlInput.onchange = previewUrl;
 //     urlInput.onclick = previewUrl;
 
+//import app from "../../App";
+
 //     loadIdentity();
 //     loadPosts();
 // }
 
 async function loadApplications(){
     let postsJson = await loadApplicationsApi();
-    console.log(postsJson)
     let postsHtml = postsJson.map(postInfo => {
         //console.log("please look here")
-        //console.log(postInfo.id)
         return `
-        <div class = "post" id="post-${postInfo.id}">
+        <div class = "post" id='post-${postInfo.id}'>
+            <select onchange='changeStatus("${postInfo.id}")' id='select-${postInfo.id}'>
+                <option value="select">Select</option>
+                <option value="applied">Applied</option>
+                <option value="interviewing">Interviewing</option>
+                <option value="accepted">Accepted</option>
+                <option value="rejected">Rejected</option>
+            </select>
+            <button type="button" class="btn btn-secondary">${postInfo.status}</button>
             ${postInfo.companyName}
             ${postInfo.position}
             <div class="post-interactions">
@@ -23,10 +31,16 @@ async function loadApplications(){
                 <div> ${postInfo.date} </div>
                 <div> ${postInfo.notes} </div>
             </div>
-            <button onclick= "toggleProgress(${postInfo.id})">+</button>
+            <button onclick= 'toggleProgress("${postInfo.id}")'>+</button>
         </div>`
     }).join("\n");
     document.getElementById("posts_box").innerHTML = postsHtml;
+}
+
+async function changeStatus(postID){
+    const status = document.getElementById(`select-${postID}`).value
+    await updateStatus(status, postID);
+    loadApplications()
 }
 
 async function addProgress(postId){

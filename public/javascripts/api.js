@@ -13,6 +13,25 @@ async function loadIdentityApi(){
     }
 }
 
+async function updateStatus(status, postId) {
+    try {
+        let response = await fetch(`api/${apiVersion}/updateStatus?postId=${postId}`, {
+            method: "POST",
+            body: JSON.stringify({status: status}),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        let responseJson = await response.json();
+        return responseJson;
+    } catch (error) {
+        return {
+            status: "error",
+            error: "There was an error: " + error
+        }
+    }
+}
+
 // this function should call your URL preview api endpoint 
 // and return an html string with the preview
 async function getURLPreview(url){

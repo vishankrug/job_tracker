@@ -21,7 +21,8 @@ async function main() {
     position: String,
     typeOfJob: String,
     date: String, //need to change this to date
-    notes: String
+    notes: String,
+    status: String
   });
 
   Application = mongoose.model('Application', applicationSchema);
@@ -50,7 +51,8 @@ router.post('/posts', async function(req, res, next){
                 position: req.body.position,
                 typeOfJob: req.body.typeOfJob,
                 date: req.body.date,
-                notes: req.body.notes
+                notes: req.body.notes,
+                status: "Applied"
             });
     
             await newApplication.save()
@@ -82,7 +84,8 @@ router.get("/posts", async function(req, res, next){
                         'typeOfJob' : postInfo.typeOfJob, 
                         'date': postInfo.date,
                         'notes': postInfo.notes,
-                        'id': postInfo.id
+                        'id': postInfo.id,
+                        'status': postInfo.status
                     } 
             }))
             res.type('json')
@@ -96,6 +99,30 @@ router.get("/posts", async function(req, res, next){
         res.send({"status": "error", "error": "not logged in"})
     }
     
+})
+
+router.post("/updateStatus", async function (req, res, next) {
+    let session = req.session;
+
+    if (session.isAuthenticated) {
+        try {
+            const postId = req.query.postId;
+            const status = req.body.status;
+            
+            let card = await Application.findById(postId);
+            card.status = status;
+
+            await card.save();
+            res.type("json")
+            res.send("status: 'success'")
+        } catch(error){
+            res.type('json')
+            res.send("error: " + error)
+        }
+    } else {
+        res.type('json')
+        res.send({"status": "error", "error": "not logged in"}) 
+    }
 })
 
 router.post("/addProgress", async function(req, res, next){
