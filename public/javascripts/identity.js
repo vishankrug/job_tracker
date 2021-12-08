@@ -15,8 +15,12 @@ async function signoutButton(){
     const username = urlParams.get('user');
     let logout_div = document.getElementById("logout");
     logout_div.innerHTML = `
-        <p>${username}</p>
-        <a href="signout" class="btn btn-danger" role="button">Log out</a>`;
+    <nav class="navbar container mt-6" role="navigation" aria-label="main navigation">            
+        <a href="signout" class="button is-danger">Log out</a>
+        <div class="navbar-end">
+            <p>${username}</p>
+        </div>
+    </nav>`;
         if(document.getElementById("make_post_div")){
             document.getElementById("make_post_div").classList.remove("d-none");
     }
@@ -54,7 +58,7 @@ async function loadIdentity(){
     } else { //loggedout
         myIdentity = undefined;
         identity_div.innerHTML = `
-        <a href="signin" class="btn btn-primary" role="button">Log in</a>`;
+        <a href="signin" class="button is-light" role="button">Log in</a>`;
         if(document.getElementById("make_post_div")){
             document.getElementById("make_post_div").classList.add("d-none");
         }

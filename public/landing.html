@@ -2,6 +2,88 @@
 
 <head>
   <title>Job Tracker</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  <script src="javascripts/identity.js"></script>
+  <script src="javascripts/index.js"></script>
+  <script src="javascripts/api.js"></script>
+</head>
+
+<body onload="loadIdentity()">
+  <div class="mt-6">
+    <nav class="container navbar" role="navigation" aria-label="main navigation">
+      <div class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" href="#">
+            Home
+          </a>
+        </div>
+    
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <div class="buttons">
+              <div id="identity_div"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <section class="hero is-halfheight">
+      <div class="hero-body has-text-centered">
+        <div class="container">
+          <div class="is-size-2 has-text-weight-semibold block">
+            Job<span class="has-text-weight-light">Tracker</span>
+          </div>
+          <div class="columns is-justify-content-center">
+            <div class="column is-two-fifths">
+              <figure class="image">
+                <img src="images/jobs.svg" alt="Job Tracker Logo">
+              </figure>
+            </div>
+          </div>
+          <nav class="level mt-6">
+            <div class="level-item has-text-centered">
+              <div>
+                <p class="heading">Track Jobs</p>
+              </div>
+            </div>
+            <div class="level-item has-text-centered">
+              <div>
+                <p class="heading">Add deadlines</p>
+              </div>
+            </div>
+            <div class="level-item has-text-centered">
+              <div>
+                <p class="heading">Get email notifications</p>
+              </div>
+            </div>
+            <div class="level-item has-text-centered">
+              <div>
+                <p class="heading">Follow companies</p>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </section>
+    <footer class="footer">
+      <div class="content has-text-centered">
+        <p>
+          <strong>JobTracker</strong> by Saurav Sawansukha and Vishank Rughwani. Licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+        </p>
+      </div>
+    </footer>
+  </div>
+</body>
+
+
+</html>
+
+<!-- <html>
+
+<head>
+  <title>Job Tracker</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
   <link rel="stylesheet" href="/stylesheets/style.css">
   <script src="javascripts/identity.js"></script>
@@ -16,4 +98,4 @@
 </body>
 
 
-</html>
+</html> -->

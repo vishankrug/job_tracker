@@ -13,6 +13,7 @@ async function loadIdentityApi(){
     }
 }
 
+
 async function updateStatus(status, postId) {
     try {
         let response = await fetch(`api/${apiVersion}/updateStatus?postId=${postId}`, {

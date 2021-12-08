@@ -13,25 +13,40 @@
 async function loadApplications(){
     let postsJson = await loadApplicationsApi();
     let postsHtml = postsJson.map(postInfo => {
-        //console.log("please look here")
         return `
         <div class = "post" id='post-${postInfo.id}'>
-            <select onchange='changeStatus("${postInfo.id}")' id='select-${postInfo.id}'>
-                <option value="select">Select</option>
-                <option value="applied">Applied</option>
-                <option value="interviewing">Interviewing</option>
-                <option value="accepted">Accepted</option>
-                <option value="rejected">Rejected</option>
-            </select>
-            <button type="button" class="btn btn-secondary">${postInfo.status}</button>
-            ${postInfo.companyName}
-            ${postInfo.position}
-            <div class="post-interactions">
-                <div> ${postInfo.typeOfJob} </div>
-                <div> ${postInfo.date} </div>
-                <div> ${postInfo.notes} </div>
+                <div class="card column is-third mt-6 mb-6 mr-6 ml-6">
+                    <p class="card-header-title is-centered">${postInfo.status === undefined ? "No status..." : postInfo.status}</p>
+                    <header class="card-header mt-6">
+                        <div class="navbar-start">
+                            <p class="card-header-title level-item has-text-centered navbar-item">${postInfo.companyName}</p>
+                        </div>
+                        <div class="navbar-end">
+                            <p class="card-header-title navbar-item">${postInfo.position}</p>
+                        </div>
+                    </header>
+                    <div class="post-interactions card-content">
+                        <div class="content">
+                            <p> Type of Job: ${postInfo.typeOfJob} </p>
+                            <p> Date Applied: ${postInfo.date} </p>
+                            <p> Notes: ${postInfo.notes} </p>
+                        </div>
+                    </div>
+                    <footer class="card-footer">
+                        <div class="card-footer-item">
+                            <select class="select" onchange='changeStatus("${postInfo.id}")' id='select-${postInfo.id}'>
+                                <option value="Select">Select</option>
+                                <option value="Applied">Applied</option>
+                                <option value="Interviewing">Interviewing</option>
+                                <option value="Accepted">Accepted</option>
+                                <option value="Rejected">Rejected</option>
+                            </select>
+                        </div>
+                        <a href="#" class="card-footer-item">Edit</a>
+                        <a href="#" class="card-footer-item">Delete</a>
+                    </footer>
+                </div>
             </div>
-            <button onclick= 'toggleProgress("${postInfo.id}")'>+</button>
         </div>`
     }).join("\n");
     document.getElementById("posts_box").innerHTML = postsHtml;
