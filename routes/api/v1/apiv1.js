@@ -9,6 +9,7 @@ var router = express.Router();
 main().catch(err => console.log(err));
 
 let Application;
+let AddProgress;
 
 async function main() {
   await mongoose.connect(`mongodb+srv://vishankr:Vishank6676@info441.fh0cv.mongodb.net/job-tracker?retryWrites=true&w=majority`);
@@ -24,6 +25,17 @@ async function main() {
   });
 
   Application = mongoose.model('Application', applicationSchema);
+
+  const progress = new mongoose.Schema({
+    username: String,
+    post: {type: mongoose.Schema.Types.ObjectId, ref: "Application"},
+    Stage: String,
+    InterviewType: String,
+    date: String, //need to change this to date
+    notes: String
+  });
+
+  AddProgress = mongoose.model('AddProgress', progress);
 
 }
 
@@ -70,6 +82,7 @@ router.get("/posts", async function(req, res, next){
                         'typeOfJob' : postInfo.typeOfJob, 
                         'date': postInfo.date,
                         'notes': postInfo.notes,
+                        'id': postInfo.id
                     } 
             }))
             res.type('json')
@@ -84,6 +97,54 @@ router.get("/posts", async function(req, res, next){
     }
     
 })
+
+router.post("/addProgress", async function(req, res, next){
+    let session = req.session
+
+    if(session.isAuthenticated) {
+        try{
+            
+            const jsonFormat = new AddProgress ({
+                username: session.connect.username,
+                post: req.body.postID,
+                Stage: req.body.Stage,
+                InterviewType: req.body.InterviewType,
+                date: req.body.date, //need to change this to date
+                notes: req.body.notes
+            })
+
+            let saveresponse = await jsonFormat.save();
+            res.type("json")
+            res.send("{status: 'success'}")  
+                
+        }catch(error){
+            res.type('json')
+            res.send("error: " + error)
+        }
+    } else {
+        res.type('json')
+        res.send({"status": "error", "error": "not logged in"}) 
+    }
+})
+
+router.get('/addProgress', async function(req, res, next) {
+    try{
+        let getProgress = await Comment.find();
+
+        getProgress = getProgress.filter(progress => {
+            if(progress.post == req.query.postID){
+                return true
+            }
+        })
+    
+        res.type("json")
+        res.send(getProgress);
+
+    }catch(error){
+        res.send("The error is: " + error);
+    }
+  
+  })
 
 // router.post('/user', async function(req, res, next){
 //     // console.log(req.body)

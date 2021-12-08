@@ -10,9 +10,12 @@
 
 async function loadApplications(){
     let postsJson = await loadApplicationsApi();
+    console.log(postsJson)
     let postsHtml = postsJson.map(postInfo => {
+        //console.log("please look here")
+        //console.log(postInfo.id)
         return `
-        <div class="post">
+        <div class = "post" id="post-${postInfo.id}">
             ${postInfo.companyName}
             ${postInfo.position}
             <div class="post-interactions">
@@ -20,9 +23,28 @@ async function loadApplications(){
                 <div> ${postInfo.date} </div>
                 <div> ${postInfo.notes} </div>
             </div>
+            <button onclick= "toggleProgress(${postInfo.id})">+</button>
         </div>`
     }).join("\n");
     document.getElementById("posts_box").innerHTML = postsHtml;
+}
+
+async function addProgress(postId){
+    let addData = await postProgress(postId)
+
+    if(addData.status == "error"){
+        console.log("error:" + responesJSON.error);
+    }else{
+        loadPosts(); //check this later
+    }
+}
+
+async function toggleProgress(postID){
+    console.log(postID)
+    let element = document.getElementById(`post-${postID}`)
+
+
+    element.innerHTML += `<textarea id = 'posts_box'></textarea>`
 }
 
 async function postApplication(){

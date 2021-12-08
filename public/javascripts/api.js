@@ -31,6 +31,12 @@ async function loadApplicationsApi(){
     return postsJson;
 }
 
+async function postProgress(postID){ //this was the one I was working on
+    let response = await fetch(`api/${apiVersion}/addProgress?postID=${postID}`);
+    let postsJson = await response.json();
+    return postsJson;
+}
+
 async function loadUserPostsApi(username){
     let response = await fetch(`api/${apiVersion}/userPosts?username=${encodeURIComponent(username)}`);
     let postsJson = await response.json();
