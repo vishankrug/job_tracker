@@ -7,6 +7,7 @@ import MsIdExpress from 'microsoft-identity-express'
 import axios from 'axios'
 import qs from 'qs'
 
+
 // const fs = require('fs');
 // const readline = require('readline');
 // const {google} = require('googleapis');
@@ -204,9 +205,6 @@ app.listen(PORT, () => {
     console.log('Example app listening at http://localhost:PORT')
 })
 
-//import gmail from "GmailApi"
-//var gmail = require("./GmailApi");
-
 class GmailAPI {
     accessToken = "";
     constructor() {
@@ -237,7 +235,6 @@ class GmailAPI {
         .then(async function (response) {
           accessToken = await response.data.access_token;
   
-          console.log("Access Token " + accessToken);
         })
         .catch(function (error) {
           console.log(error);
@@ -261,7 +258,6 @@ class GmailAPI {
         .then(async function (response) {
           threadId = await response.data["messages"][0].id;
   
-          console.log("ThreadId = " + threadId);
         })
         .catch(function (error) {
           console.log(error);
@@ -297,18 +293,24 @@ class GmailAPI {
       const message = await this.readGmailContent(threadId);
   
       const encodedMessage = await message.payload["parts"][0].body.data;
+
+      
   
       const decodedStr = Buffer.from(encodedMessage, "base64").toString("ascii");
-  
-      console.log(decodedStr);
-  
+    
       return decodedStr;
     };
 }
 
 const gmail = new GmailAPI();
 const emails = gmail.readInboxContent("subject:Application");
-console.log(emails);
+
+//document.getElementById("showThing").innerHTML = `<p>${emails}</p>`
+fs.writeFile('emails.txt', await emails+"", (err) => {
+      
+    // In case of a error throw err.
+    if (err) throw err;
+})
 
 
 export default app;

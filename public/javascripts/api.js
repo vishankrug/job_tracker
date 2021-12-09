@@ -13,6 +13,19 @@ async function loadIdentityApi(){
     }
 }
 
+async function getEmails(){
+    try{
+        let response = await fetch(`api/${apiVersion}/emails`);
+        let responseJson = await response.json();
+        return responseJson;
+    }catch(error){
+        return {
+            status: "error",
+            error: "There was an error: " + error
+        };
+    }
+}
+
 async function updateApplicationInfo(postId, companyName, position, typeOfJob, date, notes) {
     try {
         let response = await fetch(`api/${apiVersion}/updatePosts?postId=${postId}`, {

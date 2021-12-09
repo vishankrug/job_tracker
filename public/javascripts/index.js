@@ -2,7 +2,6 @@
 // import * as readline from 'readline';
 // import * as googleapis from 'googleapis';
 
-
 async function loadApplications(){
     let postsJson = await loadApplicationsApi();
     let postsHtml = postsJson.map(postInfo => {
@@ -45,6 +44,11 @@ async function loadApplications(){
     }).join("\n");
     document.getElementById("posts_box").innerHTML = postsHtml;
 
+}
+
+async function getApplicationEmails(){
+    let email = await getEmails()
+    document.getElementById('emailSpace').innerHTML = `<p>We found this from your email: ${email.data + ""}</p>`
 }
 
 
