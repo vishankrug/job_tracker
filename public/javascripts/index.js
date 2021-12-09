@@ -1,14 +1,6 @@
-// function init(){
-//     let urlInput = document.getElementById("urlInput");
-//     urlInput.onkeyup = previewUrl;
-//     urlInput.onchange = previewUrl;
-//     urlInput.onclick = previewUrl;
-
-//import app from "../../App";
-
-//     loadIdentity();
-//     loadPosts();
-// }
+// import * as fs from 'fs';
+// import * as readline from 'readline';
+// import * as googleapis from 'googleapis';
 
 async function loadApplications(){
     let postsJson = await loadApplicationsApi();
@@ -42,14 +34,111 @@ async function loadApplications(){
                                 <option value="Rejected">Rejected</option>
                             </select>
                         </div>
-                        <a href="#" class="card-footer-item">Edit</a>
-                        <a href="#" class="card-footer-item">Delete</a>
+                        <a onclick='editApplication("${postInfo.id}")' href="#" class="card-footer-item">Edit</a>
+                        <a onclick='deleteApplication("${postInfo.id}")' href="#" class="card-footer-item">Delete</a>
                     </footer>
                 </div>
             </div>
         </div>`
+
     }).join("\n");
     document.getElementById("posts_box").innerHTML = postsHtml;
+}
+
+
+async function editApplication(postID) {
+    let postsJson = await loadApplicationsApi();
+
+    let post = postsJson.filter(info => {
+        if(info.id == postID){
+            return true
+        }
+    })
+
+    post = post[0]
+    console.log(post.companyName)
+
+
+    let createModal = `
+    <div id = "modalID" class = "modal is-active">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Edit Your Information</p>
+        <button onClick = "removeModal()" class="delete" aria-label="close"></button>
+      </header>
+      <section class="modal-card-body">
+        <!-- Content ... -->
+        <div id='modal-${postID}'>
+      <div class="field">
+        <label class="label">Company Name</label>
+        <div class="control">
+          <input class="input" type="text" placeholder= ${post.companyName} id="companyName">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Postition</label>
+        <div class="control">
+          <input class="input" type="text" placeholder= ${post.position} id="position">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Type of Job</label>
+        <div class="control">
+          <input class="input" type="text" placeholder= ${post.typeOfJob} id="typeOfJob">
+        </div>
+      </div>
+
+
+      <div class="field">
+        <label class="label">Application Date</label>
+        <div class="control">
+          <input class="input" type="text" placeholder= ${post.date} id="date">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Any Notes?</label>
+        <div class="control">
+          <input class="input" type="text" placeholder= ${post.notes} id="notes">
+        </div>
+      </div>
+    </div>
+      </section>
+      <footer class="modal-card-foot">
+        <button class="button is-success">Save changes</button>
+        <button onClick = "removeModal()"  class="button">Cancel</button>
+      </footer>
+    </div>
+    </div>`
+
+    //document.getElementById(`modal-${postID}`).getElementById("companyName").value = post.companyName
+
+
+    document.getElementById("showModal").innerHTML = createModal
+
+
+}
+
+
+function removeModal(){
+
+    let element = document.getElementById('modalID')
+    element.classList.remove("is-active")
+
+
+}
+
+
+async function deleteApplication(postId){
+    let responesJSON = await deletePostAPI(postId);
+    if(responesJSON.status == "error"){
+        console.log("error:" + responesJSON.error);
+    }else{
+        loadApplications()
+    }
 }
 
 async function changeStatus(postID){

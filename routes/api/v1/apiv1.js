@@ -348,6 +348,8 @@ router.get('/addProgress', async function(req, res, next) {
 
 router.get("/getIdentity", async function(req, res, next){
     let session = req.session
+    console.log("In get identity")
+    console.log(session.isAuthenticated);
     if (session.isAuthenticated) {
         res.type("json")
         res.send(
@@ -383,28 +385,28 @@ router.get("/getIdentity", async function(req, res, next){
 //     }
 // })
 
-// router.delete('/posts', async function(req, res, next) {
-//     let session = req.session
-//     if(session.isAuthenticated){
-//         try{
-//             let post = await Post.findById(req.body.postID)
-//             if(post.username != session.account.username){
-//                 res.type("json")
-//                 res.send({"status": "error", "error": "you can only delete your own posts"})
-//             }else{
-//                 let deletedComments = await Comment.deleteMany({post: req.body.postID});
-//                 let deletedPost = await Post.deleteOne({_id: req.body.postID});
-//                 res.type("json")
-//                 res.send("status: 'success'")
-//             }
-//         }catch(error){
-//             res.send("error: " + error)
-//         }
-//     }else{
-//         res.type("json")
-//         res.send({"status": "error", "error": "not logged in"})
-//     }
-// });
+router.delete('/posts', async function(req, res, next) {
+    let session = req.session
+    if(session.isAuthenticated){
+        try{
+            let post = await Application.findById(req.body.postID)
+            if(post.username != session.account.username){
+                res.type("json")
+                res.send({"status": "error", "error": "Cannot delete"})
+            }else{
+                //let deletedComments = await Comment.deleteMany({post: req.body.postID});
+                let deletedPost = await Application.deleteOne({_id: req.body.postID});
+                res.type("json")
+                res.send("status: 'success'")
+            }
+        }catch(error){
+            res.send("error: " + error)
+        }
+    }else{
+        res.type("json")
+        res.send({"status": "error", "error": "not logged in"})
+    }
+});
 
 // const escapeHTML = str => str.replace(/[&<>'"]/g, 
 //   tag => ({

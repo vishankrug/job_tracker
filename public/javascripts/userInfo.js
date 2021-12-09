@@ -70,11 +70,11 @@ async function loadUserInfoPosts(username){
 }
 
 
-async function deletePost(postId){
-    let responesJSON = await deletePostAPI(postId);
-    if(responesJSON.status == "error"){
-        console.log("error:" + responesJSON.error);
-    }else{
-        loadUserInfo();
-    }
-}
+// async function deletePost(postId){
+//     let responesJSON = await deletePostAPI(postId);
+//     if(responesJSON.status == "error"){
+//         console.log("error:" + responesJSON.error);
+//     }else{
+//         loadUserInfo();
+//     }
+// }

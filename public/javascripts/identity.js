@@ -31,6 +31,7 @@ async function loadIdentity(){
     let identity_div = document.getElementById("identity_div");
     let logout_div = document.getElementById("logout");
     if(identityInfo.status == "error"){
+        console.log("I am in error")
         myIdentity = undefined;
         identity_div.innerHTML = `<div>
         <button onclick="loadIdentity()">retry</button>
@@ -43,7 +44,9 @@ async function loadIdentity(){
         Array.from(document.getElementsByClassName("new-comment-box")).forEach(e => e.classList.add("d-none"));
         Array.from(document.getElementsByClassName("heart-button-span")).forEach(e => e.classList.add("d-none"));
     } else if(identityInfo.status == "loggedin"){
+        console.log("I am in logged in")
         myIdentity = identityInfo.userInfo.username;
+        console.log("Look here at the identity")
         console.log(myIdentity)
         location.href = `/index.html?user=${encodeURIComponent(identityInfo.userInfo.username)}`;
         logout_div.innerHTML = `
