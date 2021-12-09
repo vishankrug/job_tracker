@@ -2,6 +2,7 @@
 // import * as readline from 'readline';
 // import * as googleapis from 'googleapis';
 
+
 async function loadApplications(){
     let postsJson = await loadApplicationsApi();
     let postsHtml = postsJson.map(postInfo => {
@@ -43,6 +44,7 @@ async function loadApplications(){
 
     }).join("\n");
     document.getElementById("posts_box").innerHTML = postsHtml;
+
 }
 
 
