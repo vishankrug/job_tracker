@@ -101,6 +101,38 @@ router.get("/posts", async function(req, res, next){
     
 })
 
+router.post("/updatePosts", async function (req, res, next) {
+    let session = req.session;
+
+    if (session.isAuthenticated) {
+        try {
+            const postId = req.query.postId;
+            const companyName = req.body.companyName;
+            const position = req.body.position;
+            const typeOfJob = req.body.typeOfJob;
+            const date = req.body.date;
+            const notes = req.body.notes;
+            
+            let card = await Application.findById(postId);
+            card.companyName = companyName;
+            card.position = position;
+            card.typeOfJob = typeOfJob;
+            card.date = date;
+            card.notes = notes;
+
+            await card.save();
+            res.type("json")
+            res.send("status: 'success'")
+        } catch(error){
+            res.type('json')
+            res.send("error: " + error)
+        }
+    } else {
+        res.type('json')
+        res.send({"status": "error", "error": "not logged in"}) 
+    }
+})
+
 router.post("/updateStatus", async function (req, res, next) {
     let session = req.session;
 

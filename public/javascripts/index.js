@@ -56,80 +56,36 @@ async function editApplication(postID) {
     })
 
     post = post[0]
-    console.log(post.companyName)
+    document.getElementById("companyName-modal").value = post.companyName
+    document.getElementById("position-modal").value = post.position
+    document.getElementById("typeOfJob-modal").value = post.typeOfJob
+    document.getElementById("date-modal").value = post.date
+    document.getElementById("notes-modal").value = post.notes
 
+    document.getElementById("save-changes").setAttribute("onclick", `update("${postID}")`);
 
-    let createModal = `
-    <div id = "modalID" class = "modal is-active">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-      <header class="modal-card-head">
-        <p class="modal-card-title">Edit Your Information</p>
-        <button onClick = "removeModal()" class="delete" aria-label="close"></button>
-      </header>
-      <section class="modal-card-body">
-        <!-- Content ... -->
-        <div id='modal-${postID}'>
-      <div class="field">
-        <label class="label">Company Name</label>
-        <div class="control">
-          <input class="input" type="text" placeholder= ${post.companyName} id="companyName">
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="label">Postition</label>
-        <div class="control">
-          <input class="input" type="text" placeholder= ${post.position} id="position">
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="label">Type of Job</label>
-        <div class="control">
-          <input class="input" type="text" placeholder= ${post.typeOfJob} id="typeOfJob">
-        </div>
-      </div>
-
-
-      <div class="field">
-        <label class="label">Application Date</label>
-        <div class="control">
-          <input class="input" type="text" placeholder= ${post.date} id="date">
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="label">Any Notes?</label>
-        <div class="control">
-          <input class="input" type="text" placeholder= ${post.notes} id="notes">
-        </div>
-      </div>
-    </div>
-      </section>
-      <footer class="modal-card-foot">
-        <button class="button is-success">Save changes</button>
-        <button onClick = "removeModal()"  class="button">Cancel</button>
-      </footer>
-    </div>
-    </div>`
-
-    //document.getElementById(`modal-${postID}`).getElementById("companyName").value = post.companyName
-
-
-    document.getElementById("showModal").innerHTML = createModal
-
+    let elem = document.getElementById('modalID')
+    elem.classList.add("is-active")
 
 }
-
 
 function removeModal(){
-
     let element = document.getElementById('modalID')
     element.classList.remove("is-active")
-
-
 }
+
+async function update(postID){
+    let companyName = document.getElementById("companyName-modal").value
+    let position = document.getElementById("position-modal").value
+    let typeOfJob = document.getElementById("typeOfJob-modal").value
+    let date = document.getElementById("date-modal").value
+    let notes = document.getElementById("notes-modal").value
+    
+    await updateApplicationInfo(postID, companyName, position, typeOfJob, date, notes)
+    removeModal()
+    loadApplications()
+}
+
 
 
 async function deleteApplication(postId){

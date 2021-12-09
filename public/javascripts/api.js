@@ -13,6 +13,29 @@ async function loadIdentityApi(){
     }
 }
 
+async function updateApplicationInfo(postId, companyName, position, typeOfJob, date, notes) {
+    try {
+        let response = await fetch(`api/${apiVersion}/updatePosts?postId=${postId}`, {
+            method: "POST",
+            body: JSON.stringify({companyName: companyName, 
+                                position: position,
+                                typeOfJob: typeOfJob,
+                                date: date,
+                                notes: notes}),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        let responseJson = await response.json();
+        return responseJson;
+    } catch (error) {
+        return {
+            status: "error",
+            error: "There was an error: " + error
+        }
+    }
+}
+
 
 async function updateStatus(status, postId) {
     try {

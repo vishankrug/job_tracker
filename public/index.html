@@ -65,7 +65,61 @@
 
   </div>
 
-  <div id = "showModal"></div>
+  <div id = "showModal">
+    <div id = "modalID" class = "modal">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Edit Your Information</p>
+          <button onClick = "removeModal()" class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+          <!-- Content ... -->
+          <div id='modal'>
+        <div class="field">
+          <label class="label">Company Name</label>
+          <div class="control">
+            <input class="input" type="text" id="companyName-modal">
+          </div>
+        </div>
+  
+        <div class="field">
+          <label class="label">Postition</label>
+          <div class="control">
+            <input class="input" type="text" value=${post.position} id="position-modal">
+          </div>
+        </div>
+  
+        <div class="field">
+          <label class="label">Type of Job</label>
+          <div class="control">
+            <input class="input" type="text" value= ${post.typeOfJob} id="typeOfJob-modal">
+          </div>
+        </div>
+  
+  
+        <div class="field">
+          <label class="label">Application Date</label>
+          <div class="control">
+            <input class="input" type="text" value= ${post.date} id="date-modal">
+          </div>
+        </div>
+  
+        <div class="field">
+          <label class="label">Any Notes?</label>
+          <div class="control">
+            <input class="input" type="text" value= ${post.notes} id="notes-modal">
+          </div>
+        </div>
+      </div>
+        </section>
+        <footer class="modal-card-foot">
+          <button class="button is-success" id="save-changes">Save changes</button>
+          <button onClick = "removeModal()"  class="button">Cancel</button>
+        </footer>
+      </div>
+    </div>
+  </div>
 
 </body>
 
