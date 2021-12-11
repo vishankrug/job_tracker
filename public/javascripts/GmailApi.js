@@ -19,7 +19,7 @@
 //           "300842056421-k9ubs6oga5vah733gc8hnoorbr7hs25v.apps.googleusercontent.com",
 //         client_secret: "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",
 //         refresh_token:
-//           "1//06aR24AU0NdXSCgYIARAAGAYSNgF-L9Ir444-IyD5n8q4AlfqdS5NwqVgu8AJ3_iUxwJPkUI4Mi1CldK4MUVvfK2QCjr-_Hzwdg",
+//           "",
 //         grant_type: "refresh_token",
 //       });
 //       var config = {
