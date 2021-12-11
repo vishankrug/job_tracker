@@ -47,8 +47,7 @@ async function loadApplications(){
 }
 
 async function getApplicationEmails(){
-    let email = await getEmails()
-    document.getElementById('emailSpace').innerHTML = `<p>We found this from your email: ${email.data + ""}</p>`
+    document.getElementById('emailSpace').innerHTML = `<p>Gmail functionality is disabled because it is too expensive and for security reasons. Refer to video in readme.</p>`
 }
 
 

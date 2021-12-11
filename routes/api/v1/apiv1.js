@@ -1,12 +1,7 @@
-import fetch from 'node-fetch';
 import express from 'express';
 import { promises as fs } from "fs";
 import mongoose from "mongoose";
-import { parse } from 'node-html-parser';
-import session from 'express-session';
 
-import axios from 'axios'
-import qs from 'qs'
 var router = express.Router();
 
 main().catch(err => console.log(err));
@@ -23,7 +18,7 @@ async function main() {
     companyName: String,
     position: String,
     typeOfJob: String,
-    date: String, //need to change this to date
+    date: String,
     notes: String,
     status: String
   });
@@ -35,7 +30,7 @@ async function main() {
     post: {type: mongoose.Schema.Types.ObjectId, ref: "Application"},
     Stage: String,
     InterviewType: String,
-    date: String, //need to change this to date
+    date: String,
     notes: String
   });
 
@@ -43,15 +38,16 @@ async function main() {
 
 }
 
-router.get("/emails", async function(req, res, next){
-    let read = await fs.readFile('./emails.txt', 'utf8' , (err, data) => {
-        if (err) {
-          res.send("error: " + err)
-        }
-      })
-        res.type('json')
-        res.send({'data': read})
-})
+//Gmail
+// router.get("/emails", async function(req, res, next){
+//     let read = await fs.readFile('./emails.txt', 'utf8' , (err, data) => {
+//         if (err) {
+//           res.send("error: " + err)
+//         }
+//       })
+//         res.type('json')
+//         res.send({'data': read})
+// })
 
 router.post('/posts', async function(req, res, next){
     // console.log(req.body)
@@ -259,9 +255,6 @@ router.delete('/posts', async function(req, res, next) {
         res.send({"status": "error", "error": "not logged in"})
     }
 });
-
-
-
 
 export default router;
 

@@ -1,6 +1,14 @@
 **Job-Tracker**
 
+**Link to Azure website**
+Gmail functionality is not on for our Azure website because we would have to pay for this, however, it is on for our localhost:3000. If you want to try the functionality, you can email "vishankrug@gmail.com" anything with the work "Application" in the subject and press the button to see it update in real time. Or you can take a look at the Zoom link to see the functionality working in real time.
+
+Update: Gmail functionality was commented out and is no longer working as we have to pay to use it. Please refer to the Zoom recording to see it working. 
+
+https://jobtracker.azurewebsites.net/
+
 **Functionality for Gmail API:**
+Code for this is commented out
 https://washington.zoom.us/rec/share/dpLEvmnboPpdpx7UphRs0mtAQEuuH3WgkEHca1i6GDXesirNa6f1TuetHD0J8g.-w_5t_07LxXY9fu5
 
 **Proposal**
